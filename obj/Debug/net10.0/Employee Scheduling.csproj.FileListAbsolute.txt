@@ -1,0 +1,15 @@
+/Users/saniyahsmith/Employee Scheduling/bin/Debug/net10.0/Employee Scheduling
+/Users/saniyahsmith/Employee Scheduling/bin/Debug/net10.0/Employee Scheduling.deps.json
+/Users/saniyahsmith/Employee Scheduling/bin/Debug/net10.0/Employee Scheduling.runtimeconfig.json
+/Users/saniyahsmith/Employee Scheduling/bin/Debug/net10.0/Employee Scheduling.dll
+/Users/saniyahsmith/Employee Scheduling/bin/Debug/net10.0/Employee Scheduling.pdb
+/Users/saniyahsmith/Employee Scheduling/obj/Debug/net10.0/Employee Scheduling.GeneratedMSBuildEditorConfig.editorconfig
+/Users/saniyahsmith/Employee Scheduling/obj/Debug/net10.0/Employee Scheduling.AssemblyInfoInputs.cache
+/Users/saniyahsmith/Employee Scheduling/obj/Debug/net10.0/Employee Scheduling.AssemblyInfo.cs
+/Users/saniyahsmith/Employee Scheduling/obj/Debug/net10.0/Employee Scheduling.csproj.CoreCompileInputs.cache
+/Users/saniyahsmith/Employee Scheduling/obj/Debug/net10.0/Employee Scheduling.sourcelink.json
+/Users/saniyahsmith/Employee Scheduling/obj/Debug/net10.0/Employee Scheduling.dll
+/Users/saniyahsmith/Employee Scheduling/obj/Debug/net10.0/refint/Employee Scheduling.dll
+/Users/saniyahsmith/Employee Scheduling/obj/Debug/net10.0/Employee Scheduling.pdb
+/Users/saniyahsmith/Employee Scheduling/obj/Debug/net10.0/Employee Scheduling.genruntimeconfig.cache
+/Users/saniyahsmith/Employee Scheduling/obj/Debug/net10.0/ref/Employee Scheduling.dll
