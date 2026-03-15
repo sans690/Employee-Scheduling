@@ -1,8 +1,10 @@
 using System;
-using System.ComponentModel.Design;
+using System.Collections;
 
 class EmployeeScheduling
 {
+    static List<Employee> EmployeeList = new List<Employee>();
+    static Random random = new Random();
     public static void Run(string[] args)
     {
         Menu();
@@ -10,17 +12,30 @@ class EmployeeScheduling
 
     public static void Menu()
     {
-        Console.WriteLine("1. Add Employee");
-        Console.WriteLine("2. Assign Shift");
-        Console.WriteLine("3. View Schedule");
-        Console.WriteLine("4. Remove Employee");
-        Console.WriteLine("5. Exit");
+        Console.WriteLine("\n1. Add Employee");
+        Console.WriteLine("2. View Employees");
+        Console.WriteLine("3. Assign Shift");
+        Console.WriteLine("4. View Schedule");
+        Console.WriteLine("5. Remove Employee");
+        Console.WriteLine("6. Exit\n");
+
         string? result = Console.ReadLine();
 
         switch (result)
         {
             case "1":
                 AddEmployee();
+                Menu();
+                break;
+
+            case "2":
+                ViewEmployees();
+                Menu();
+                break;
+
+            default:
+                Console.WriteLine("Invalid input, try again!");
+                Menu();
                 break;
                 // add other options
         }
@@ -28,13 +43,22 @@ class EmployeeScheduling
 
     public static void AddEmployee()
     {
-        Console.WriteLine("\nEnter a name");
-        Console.ReadLine();
-        Random random = new Random();
-        int id = random.Next(1000, 2000);
-
-        // creates new instance of employee, and assigns those values
+        Employee employee = new Employee();
+        Console.WriteLine("Enter a name");
+        employee.Name = Console.ReadLine();
+        employee.Id = random.Next(1000, 2000);
+        Console.WriteLine($"Name: {employee.Name}, ID: {employee.Id} was entered");
+        EmployeeList.Add(employee);
     }
+
+    public static void ViewEmployees()
+    {
+        foreach (var e in EmployeeList)
+        {
+            Console.WriteLine($"Name: {e.Name}, ID: {e.Id}");
+        }
+    }
+
 
     class Employee
     {
@@ -47,6 +71,5 @@ class EmployeeScheduling
         public string? Day { get; set; }
         public string? Time { get; set; }
         public string? EmployeeName { get; set; }
-
     }
 }
