@@ -80,7 +80,7 @@ class EmployeeScheduling
                 Console.WriteLine("Invalid input, try again!");
                 Menu();
                 break;
-                
+
                 // add other options
         }
     }
@@ -149,7 +149,6 @@ class EmployeeScheduling
             throw new Exception("\nNo employees for you to assign shift");
         }
 
-        // need when invalid day entered
 
         // need when invalid time entered
 
@@ -175,6 +174,30 @@ class EmployeeScheduling
 
                 Console.WriteLine($"Employee with ID: {shift.employeeId} has been assigned {shift.Day} at {shift.Time}");
             }
+        }
+
+        // need when invalid day entered
+
+        bool isValidDay = false;
+        List<string> days = new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+        foreach (string d in days)
+        {
+            string? dayLower = d.ToLower();
+            if (day.ToLower() == dayLower)
+            {
+                isValidDay = true;
+                break;
+            }
+
+            else
+            {
+                isValidDay = false;
+            }
+        }
+
+        if (!isValidDay)
+        {
+            throw new Exception("Invalid day was entered");
         }
     }
 
