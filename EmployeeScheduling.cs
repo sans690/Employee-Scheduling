@@ -5,7 +5,10 @@ using System.Linq;
 class EmployeeScheduling
 {
     static List<Employee> EmployeeList = new List<Employee>();
+    static List<Shift> ShiftList = new List<Shift>();
     static Random random = new Random();
+    static List<string> ValidDays = new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+    static List<string> ValidTimes = new List<string>() { "1:00", "1:30", "2:00", "2:30" };
     public static void Run(string[] args)
     {
         Menu();
@@ -149,38 +152,19 @@ class EmployeeScheduling
             throw new Exception("\nNo employees for you to assign shift");
         }
 
-
-        // need when invalid time entered
-
-        // need when invalid id entered
-
         Console.WriteLine("Enter ID of employee that you want to assign a shift: ");
         string? id = Console.ReadLine();
         Console.WriteLine("Enter the day that you want to assign to the employee: ");
         string? day = Console.ReadLine();
         Console.WriteLine("Enter the time that you want to assign to the employee: ");
         string? time = Console.ReadLine();
-
         int.TryParse(id, out int intId);
 
-        foreach (Employee employee in EmployeeList)
-        {
-            if (employee.Id == intId)
-            {
-                Shift shift = new Shift();
-                shift.employeeId = intId;
-                shift.Day = day;
-                shift.Time = time;
-
-                Console.WriteLine($"Employee with ID: {shift.employeeId} has been assigned {shift.Day} at {shift.Time}");
-            }
-        }
-
         // need when invalid day entered
-
         bool isValidDay = false;
-        List<string> days = new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
-        foreach (string d in days)
+        bool isValidTime = false;
+
+        foreach (string d in ValidDays)
         {
             string? dayLower = d.ToLower();
             if (day.ToLower() == dayLower)
@@ -195,9 +179,50 @@ class EmployeeScheduling
             }
         }
 
+        // need when invalid time entered
+        foreach (string? t in ValidTimes)
+        {
+            if (time == t)
+            {
+                isValidDay = true;
+                break;
+            }
+
+            else
+            {
+                isValidTime = false;
+            }
+        }
+
         if (!isValidDay)
         {
             throw new Exception("Invalid day was entered");
+        }
+
+        if (!isValidTime)
+        {
+            throw new Exception("Invalid time was entered");
+        }
+
+        foreach (Employee employee in EmployeeList)
+        {
+            if (employee.Id == intId)
+            {
+                if (isValidDay)
+                {
+                    Shift shift = new Shift();
+                    shift.employeeId = intId;
+                    shift.Day = day;
+                    shift.Time = time;
+
+                    Console.WriteLine($"Employee with ID: {shift.employeeId} has been assigned {shift.Day} at {shift.Time}");
+                }
+            }
+            // need when invalid id entered
+            else
+            {
+                throw new Exception("Invalid id was entered");
+            }
         }
     }
 
