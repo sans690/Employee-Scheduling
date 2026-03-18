@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Linq;
 
 class EmployeeScheduling
 {
@@ -17,8 +15,8 @@ class EmployeeScheduling
     public static void Menu()
     {
         Console.WriteLine("\n1. Add Employee");
-        Console.WriteLine("2. View Employees");
-        Console.WriteLine("3. Remove Employee");
+        Console.WriteLine("2. Remove Employee");
+        Console.WriteLine("3. View Employees");
         Console.WriteLine("4. Assign Shift");
         Console.WriteLine("5. Remove Shift");
         Console.WriteLine("6. View Schedule");
@@ -43,7 +41,7 @@ class EmployeeScheduling
             case "2":
                 try
                 {
-                    ViewEmployees();
+                    RemoveEmployee();
                 }
 
                 catch (Exception ex)
@@ -56,7 +54,7 @@ class EmployeeScheduling
             case "3":
                 try
                 {
-                    RemoveEmployee();
+                    ViewEmployees();
                 }
 
                 catch (Exception ex)
@@ -79,21 +77,40 @@ class EmployeeScheduling
                 Menu();
                 break;
 
+            case "5":
+                try
+                {
+                    RemoveShifts();
+                }
+
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"{ex.Message}");
+                }
+                Menu();
+                break;
+
+            case "6":
+                try
+                {
+                    ViewSchedule();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"{ex.Message}");
+                }
+                Menu();
+                break;
+
             default:
                 Console.WriteLine("Invalid input, try again!");
                 Menu();
                 break;
-
-                // add other options
         }
     }
 
     public static void AddEmployee()
     {
-        // maybe needed a dup catch, ask user if they are sure
-
-        // maybe switch to using first and last name
-
         Employee employee = new Employee();
         Console.WriteLine("Enter a name: ");
         employee.Name = Console.ReadLine();
@@ -124,24 +141,36 @@ class EmployeeScheduling
 
     public static void RemoveEmployee()
     {
+        bool idFound = false;
+
         if (EmployeeList.Count() == 0)
         {
             throw new Exception("\nNo employees for you to remove");
         }
-        // need when invalid id entered
 
         Console.WriteLine("Enter ID of employee that you want to remove: ");
         string? id = Console.ReadLine();
-        int.TryParse(id, out int intId);
+
+        if (!int.TryParse(id, out int intId))
+        {
+            throw new Exception("Invalid id was entered");
+        }
+
         for (int e = EmployeeList.Count - 1; e >= 0; e--)
         {
             {
                 if (EmployeeList[e].Id == intId)
                 {
+                    idFound = true;
                     Console.WriteLine($"\n{EmployeeList[e].Name} was removed");
                     EmployeeList.Remove(EmployeeList[e]);
                 }
             }
+        }
+
+        if (!idFound)
+        {
+            throw new Exception("No employee with this id exist for you to remove");
         }
     }
 
@@ -158,39 +187,30 @@ class EmployeeScheduling
         string? day = Console.ReadLine();
         Console.WriteLine("Enter the time that you want to assign to the employee: ");
         string? time = Console.ReadLine();
-        int.TryParse(id, out int intId);
+        if (!int.TryParse(id, out int intId))
+        {
+            throw new Exception("Invalid id was entered");
+        }
 
-        // need when invalid day entered
         bool isValidDay = false;
         bool isValidTime = false;
 
         foreach (string d in ValidDays)
         {
             string? dayLower = d.ToLower();
-            if (day.ToLower() == dayLower)
+            if (day?.ToLower() == dayLower)
             {
                 isValidDay = true;
                 break;
-            }
-
-            else
-            {
-                isValidDay = false;
             }
         }
 
-        // need when invalid time entered
-        foreach (string? t in ValidTimes)
+        foreach (string t in ValidTimes)
         {
-            if (time == t)
+            if (time?.Trim() == t)
             {
-                isValidDay = true;
+                isValidTime = true;
                 break;
-            }
-
-            else
-            {
-                isValidTime = false;
             }
         }
 
@@ -208,21 +228,95 @@ class EmployeeScheduling
         {
             if (employee.Id == intId)
             {
-                if (isValidDay)
+                if (isValidDay && isValidTime)
                 {
                     Shift shift = new Shift();
                     shift.employeeId = intId;
                     shift.Day = day;
                     shift.Time = time;
+                    ShiftList.Add(shift);
 
                     Console.WriteLine($"Employee with ID: {shift.employeeId} has been assigned {shift.Day} at {shift.Time}");
                 }
             }
-            // need when invalid id entered
-            else
+        }
+    }
+    public static void RemoveShifts()
+    {
+        if (EmployeeList.Count == 0)
+        {
+            throw new Exception("\nNo employees for you to remove shift for");
+        }
+
+        else if (ShiftList.Count == 0)
+        {
+            throw new Exception("\nNo shift for you to remove");
+        }
+
+        Console.WriteLine("Enter the id of the employee that you want to remove a shift for: ");
+        string? id = Console.ReadLine();
+        Console.WriteLine("Enter the day for the shift that you want to remove: ");
+        string? day = Console.ReadLine();
+        Console.WriteLine("Enter the time for the shift that you want to remove: ");
+        string? time = Console.ReadLine();
+        if (!int.TryParse(id, out int intId))
+        {
+            throw new Exception("Invalid id was entered");
+        }
+
+        bool employeeFound = false;
+        bool shiftRemoved = false;
+
+        for (int e = EmployeeList.Count - 1; e >= 0; e--)
+        {
+            if (EmployeeList[e].Id == intId)
             {
-                throw new Exception("Invalid id was entered");
+                employeeFound = true;
+
+                for (int s = ShiftList.Count - 1; s >= 0; s--)
+                {
+                    if (ShiftList[s].employeeId == intId)
+                    {
+                        if (day == ShiftList[s].Day)
+                        {
+                            if (time == ShiftList[s].Time)
+                            {
+                                Console.WriteLine($"Employee with ID: {ShiftList[s].employeeId} has been removed for shift {ShiftList[s].Day} at {ShiftList[s].Time}");
+                                ShiftList.Remove(ShiftList[s]);
+                                shiftRemoved = true;
+                            }
+                        }
+                    }
+                }
             }
+        }
+
+        if (!employeeFound)
+        {
+            throw new Exception("No employee with this id exist for you to remove");
+        }
+
+        if (!shiftRemoved)
+        {
+            throw new Exception("No matching shift found for this employee, day, and time");
+        }
+    }
+
+    public static void ViewSchedule()
+    {
+        if (EmployeeList.Count == 0)
+        {
+            Console.WriteLine("No employees to view schedule");
+        }
+
+        else if (ShiftList.Count == 0)
+        {
+            Console.WriteLine("No shifts to view the schedule");
+        }
+
+        foreach (var shift in ShiftList)
+        {
+            Console.WriteLine($"ID: {shift.employeeId}, Day: {shift.Day}, Time: {shift.Time}");
         }
     }
 
