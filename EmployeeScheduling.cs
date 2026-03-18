@@ -20,7 +20,6 @@ class EmployeeScheduling
         Console.WriteLine("4. Assign Shift");
         Console.WriteLine("5. Remove Shift");
         Console.WriteLine("6. View Schedule");
-        Console.WriteLine("7. Exit\n");
 
         string? selectionOption = Console.ReadLine();
 
